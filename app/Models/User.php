@@ -18,9 +18,20 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'username',
         'password',
+        'gender',
+        'birthdate',
+        'address',
+        'city',
+        'state',
+        'zip',
+        'country',
+        'paypal_email',
+        'role'
     ];
 
     /**
@@ -44,6 +55,6 @@ class User extends Authenticatable
 
     public function secrets()
     {
-        return $this->hasMany('App\Secret');
+        return $this->hasMany('App\Models\Secret');
     }
 }

@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Referral extends Model
 {
     use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = [
+        'user_id',
+        'banner_id',
+        'buyer_name',
+        'commision',
+        'is_deleted'
+    ];
+    
 }

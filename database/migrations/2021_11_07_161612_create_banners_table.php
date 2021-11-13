@@ -18,6 +18,8 @@ class CreateBannersTable extends Migration
             $table->string('name');
             $table->text('image');
             $table->integer('percent_commision');
+            $table->integer('number_used');
+            $table->integer('number_success_sales');
             $table->boolean('is_active')->default(0);
             $table->boolean('is_deleted')->default(0);
             $table->timestamps();

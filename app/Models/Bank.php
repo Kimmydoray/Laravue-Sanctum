@@ -5,9 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Earning extends Model
+class Bank extends Model
 {
-    use HasFactory;
 
     /**
      * The attributes that are mass assignable.
@@ -16,8 +15,10 @@ class Earning extends Model
      */
     protected $fillable = [
         'user_id',
-        'income',
-        'balance',
-        'is_add',
+        'bank_name',
+        'account_name',
+        'account_number',
     ];
+    
+    use HasFactory;
 }

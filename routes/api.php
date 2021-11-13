@@ -10,4 +10,4 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-Route::get('secrets', "SecretController@index"); 
+Route::get('secrets', "App\Http\Controllers\SecretController@index");

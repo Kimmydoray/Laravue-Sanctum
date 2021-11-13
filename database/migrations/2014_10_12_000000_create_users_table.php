@@ -18,7 +18,15 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
+            $table->string('username')->unique();
             $table->string('password');
+            $table->string('gender');
+            $table->string('birthdate');
+            $table->text('address');
+            $table->string('city');
+            $table->string('state');
+            $table->string('zip');
+            $table->string('country');
             $table->string('paypal_email');
             $table->integer('role');
             $table->boolean('is_approved')->default(0);;
