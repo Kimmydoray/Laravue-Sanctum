@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->string('username')->unique();
+            $table->string('username')->unique()->nullable();
             $table->string('password');
             $table->string('gender');
             $table->string('birthdate');
@@ -27,8 +27,8 @@ class CreateUsersTable extends Migration
             $table->string('state');
             $table->string('zip');
             $table->string('country');
-            $table->string('paypal_email');
-            $table->integer('role');
+            $table->string('paypal_email')->nullable();
+            $table->integer('role')->default(2);
             $table->boolean('is_approved')->default(0);;
             $table->boolean('is_deleted')->default(0);;
             $table->timestamp('email_verified_at')->nullable();
