@@ -7,7 +7,7 @@
             <div class="login-content d-flex flex-column pt-lg-0 pt-12">
                 <!--begin::Logo-->
                 <a href="#" class="login-logo pb-xl-20 pb-15">
-                    <img src="demo13/dist/assets/media/logos/logo-4.png" class="max-h-70px" alt=""/>
+                    <img src="images/logo.png" class="max-h-70px" alt=""/>
                 </a>
                 <!--end::Logo-->
 
@@ -72,8 +72,8 @@
         <div class="login-conteiner bgi-no-repeat bgi-position-x-right bgi-position-y-bottom" style="background-image: url(demo13/dist/assets/media/svg/illustrations/login-visual-4.svg);">
             <!--begin::Aside title-->
             <h3 class="pt-lg-40 pl-lg-20 pb-lg-0 pl-10 py-20 m-0 d-flex justify-content-lg-start font-weight-boldest display5 display1-lg text-white">
-                We Got<br/>
-                A Surprise<br/>
+                Affiliate<br/>
+                Program<br/>
                 For You
             </h3>
             <!--end::Aside title-->
@@ -84,30 +84,34 @@
 <!--end::Login-->
 </template>
 
-
 <script>
+    import { mapActions } from 'vuex';
     export default {
+        name: "login",
         data() {
             return {
                 secrets: [],
                 formData: {
                     email: '',
                     password: ''
-                }
+                },
+                processing: false
             }
         },
         methods: {
-            handleLogin() {
-                alert("hello");
-                axios.get('/sanctum/csrf-cookie').then(response => {
-                    axios.post('/login', this.formData).then(response => {
-                        console.log(response.status);
-                        if(response.status == '200') {
-                            window.location.href = 'affiliate';
-                        }
-                        this.getSecrets();
-                    })
-                });
+            ...mapActions({
+                signIn: 'auth/login'
+            }),
+            async handleLogin(){
+                this.processing = true
+                await axios.get('/sanctum/csrf-cookie')
+                await axios.post('/login', this.formData).then(({data})=>{
+                    this.signIn()
+                }).catch(({response:{data}})=>{
+                    alert(data.message)
+                }).finally(()=>{
+                    this.processing = false
+                })
             },
             getSecrets() {
                 axios.get('/api/secrets').then(response => {

@@ -4,13 +4,12 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-
- import VueRouter from 'vue-router'
- import axios from 'axios';
 require('./bootstrap');
 
 window.Vue = require('vue').default;
-import store from './store';
+import store from './store'
+import router from './router';
+import Dashboard from './components/admin/DashboardComponent.vue';
 
 /**
  * The following block of code may be used to automatically register your
@@ -24,23 +23,14 @@ import store from './store';
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 /**
- * Signing Components
- */
-Vue.component('login-component', require('./components/auth/LoginComponent.vue').default);
-Vue.component('register-component', require('./components/auth/RegisterComponent.vue').default);
-
-/**
- * Affiliate Components
- */
- Vue.component('affiliate-dashboard-component', require('./components/affiliate/DashboardComponent.vue').default);
-
-/**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 const app = new Vue({
     mode: 'history',
-    el: '#app',
-    store
+    el: '#app_dashboard',
+    render: h => h(Dashboard),
+    router: router,
+    store: store
 });

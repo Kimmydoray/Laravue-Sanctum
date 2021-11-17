@@ -9,7 +9,7 @@
               <div class="d-flex flex-column-auto flex-column px-10">
                   <!--begin::Aside header-->
                   <a href="#" class="login-logo pb-lg-4 pb-10">
-                      <img src="demo13/dist/assets/media/logos/logo-4.png" class="max-h-70px" alt=""/>
+                      <img src="images/logo.png" class="max-h-70px" alt=""/>
                   </a>
                   <!--end::Aside header-->
 
@@ -119,14 +119,14 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label class="font-size-h6 font-weight-bolder text-dark">First Name</label>
-                                        <input v-model="formData.first_name" type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="first_name" placeholder="First Name"/>
+                                        <input v-model="formData.first_name" type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="fname" placeholder="First Name" required/>
                                     </div>
                                 </div>
                                 
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label class="font-size-h6 font-weight-bolder text-dark">Last Name</label>
-                                        <input v-model="formData.last_name" type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="last_name" placeholder="Last Name"/>
+                                        <input v-model="formData.last_name" type="text" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="lname" placeholder="Last Name" required/>
                                     </div>
                                 </div>
                             </div>
@@ -144,13 +144,15 @@
                                     <div class="form-group">
                                         <label class="font-size-h6 font-weight-bolder text-dark">Password</label>
                                         <input v-model="formData.password" type="password" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="password" placeholder="Password"/>
+                                        <span class="text-danger">{{ error.password }}</span>
                                     </div>
                                 </div>
                                 
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label class="font-size-h6 font-weight-bolder text-dark">Confirm Password</label>
-                                        <input v-model="formData.password_confirmation" type="password" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="password_confirmation" placeholder="Confirm Password"/>
+                                        <input v-model="formData.password_confirmation" @change="confirmPassword" type="password" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="password_confirmation" placeholder="Confirm Password"/>
+                                        <span class="text-danger">{{ error.password }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -204,7 +206,7 @@
                                     <!--begin::Input-->
                                     <div class="form-group">
                                         <label class="font-size-h6 font-weight-bolder text-dark">Date of Birth</label>
-                                        <input v-model="formData.birthdate" type="date" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="address2" placeholder="Address Line 2" value="Address Line 2" />
+                                        <input v-model="formData.birthdate" type="date" class="form-control form-control-solid h-auto py-7 px-6 border-0 rounded-lg font-size-h6" name="birthdate" placeholder="Birthdate"/>
                                         <span class="form-text text-muted">Please enter your Data of Birth.</span>
                                     </div>
                                     <!--end::Input-->
@@ -631,8 +633,8 @@
           <div class="login-conteiner bgi-no-repeat bgi-position-x-right bgi-position-y-bottom" style="background-image: url(demo13/dist/assets/media/svg/illustrations/login-visual-4.svg);">
               <!--begin::Aside title-->
               <h3 class="pt-lg-40 pl-lg-20 pb-lg-0 pl-10 py-20 m-0 d-flex justify-content-lg-start font-weight-boldest display5 display1-lg text-white">
-                  We Got<br/>
-                  A Surprise<br/>
+                  Affiliate<br/>
+                  Program<br/>
                   For You
               </h3>
               <!--end::Aside title-->
@@ -644,7 +646,9 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
     export default {
+        name: "register",
         data() {
             return {
                 formData: {
@@ -660,19 +664,34 @@
                     country: '',
                     password_confirmation: '',
                     password: '',
-                }
+                },
+                error: {
+                    password: ''
+                },
+                processing: false
             }
         },
         methods: {
-            handleRegister() {
-                axios.get('/sanctum/csrf-cookie').then(response => {
-                    axios.post('/register', this.formData).then(response => {
-                        if(response.statusText == "Created") {
-                            window.location.href = 'affiliate';
-                        }
-                        console.log(response);
-                    });
-                });
+            ...mapActions({
+                signIn:'auth/login'
+            }),
+            async handleRegister(){
+                this.processing = true
+                await axios.post('/register',this.formData).then(response=>{
+                    this.signIn()
+                    document.location.href = "/admin";
+                }).catch(({response:{data}})=>{
+                    alert(data.message)
+                }).finally(()=>{
+                    this.processing = false
+                })
+            },
+            confirmPassword() {
+                if (this.formData.password != this.formData.password_confirmation) {
+                    this.error.password = "confirm password not match";
+                } else {
+                    this.error.password = ""
+                }
             }
         }
     }

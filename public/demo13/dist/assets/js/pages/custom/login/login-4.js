@@ -216,6 +216,13 @@ var KTLogin = function() {
 								message: 'The value is not a valid email address'
 							}
 						}
+					},
+					password: {
+						validators: {
+							notEmpty: {
+								message: 'Password is required'
+							}
+						}
 					}
 				},
 				plugins: {
@@ -230,7 +237,14 @@ var KTLogin = function() {
 			form,
 			{
 				fields: {
-					address1: {
+					gender: {
+						validators: {
+							notEmpty: {
+								message: 'Gender is required'
+							}
+						}
+					},
+					address: {
 						validators: {
 							notEmpty: {
 								message: 'Address is required'
@@ -262,6 +276,20 @@ var KTLogin = function() {
 						validators: {
 							notEmpty: {
 								message: 'Country is required'
+							}
+						}
+					},
+					zip: {
+						validators: {
+							notEmpty: {
+								message: 'Zip is required'
+							}
+						}
+					},
+					birthdate: {
+						validators: {
+							notEmpty: {
+								message: 'Zip is required'
 							}
 						}
 					}
